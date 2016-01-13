@@ -1,27 +1,34 @@
-const GET_FILE_INFO = 'macros/file/GET_FILE_INFO'
-const GET_FILE_INFO_SUCCESS = 'macros/file/GET_FILE_INFO_SUCCESS'
-const GET_FILE_INFO_FAILURE = 'macros/file/GET_FILE_INFO_FAILURE'
+const GET_INFO = 'macros/file/GET_INFO'
+const GET_INFO_SUCCESS = 'macros/file/GET_INFO_SUCCESS'
+const GET_INFO_FAIL = 'macros/file/GET_INFO_FAIL'
 const SUBMIT_FORM = 'macros/file/SUBMIT_FORM'
 const SUBMIT_FORM_SUCCESS = 'macros/file/SUBMIT_FORM_SUCCESS'
-const SUBMIT_FORM_FAILURE = 'macros/file/SUBMIT_FORM_FAILURE'
+const SUBMIT_FORM_FAIL = 'macros/file/SUBMIT_FORM_FAIL'
 
 const initialState = {
-  loaded: false
+  gotInfo: false
 }
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    case GET_FILE_INFO:
+    case GET_INFO:
       return {
-        ...state
+        ...state,
+        gettingInfo: true
       }
-    case GET_FILE_INFO_SUCCESS:
+    case GET_INFO_SUCCESS:
       return {
-        ...state
+        ...state,
+        gettingInfo: false,
+        gotInfo: true,
+        info: action.result
       }
-    case GET_FILE_INFO_FAILURE:
+    case GET_INFO_FAIL:
       return {
-        ...state
+        ...state,
+        gettingInfo: false,
+        gotInfo: false,
+        error: action.error
       }
     case SUBMIT_FORM:
       return {
@@ -31,7 +38,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state
       }
-    case SUBMIT_FORM_FAILURE:
+    case SUBMIT_FORM_FAIL:
       return {
         ...state
       }
@@ -40,10 +47,10 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-export function getFileInfo(file) {
+export function getInfo(file) {
   return {
-    types: [GET_FILE_INFO, GET_FILE_INFO_SUCCESS, GET_FILE_INFO_FAILURE],
-    promise: (client) => client.post('/file/get_info', {
+    types: [GET_INFO, GET_INFO_SUCCESS, GET_INFO_FAIL],
+    promise: (client) => client.post('/file/getInfo', {
       data: {
         file: file
       }

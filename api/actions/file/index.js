@@ -1,2 +1,2 @@
-export get_info from './getInfo';
+export getInfo from './getInfo';
 //export upload from './upload';
