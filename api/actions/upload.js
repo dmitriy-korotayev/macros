@@ -1,4 +1,4 @@
-export default function login(req) {
+export default function upload(file) {
   if(req.body.password !== process.env.PASS)
     return Promise.reject('Password is invalid');
   const user = {

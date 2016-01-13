@@ -4,7 +4,7 @@ import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
     Chat,
-    Home,
+    Upload,
     Widgets,
     About,
     Login,
@@ -19,7 +19,7 @@ export default (store) => {
       const { auth: { user }} = store.getState();
       if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/');
+        replaceState(null, '/login');
       }
       cb();
     }
@@ -36,8 +36,7 @@ export default (store) => {
    */
   return (
     <Route path="/" component={App}>
-      { /* Home (main) route */ }
-      <IndexRoute component={Home}/>
+      <IndexRoute onEnter={requireLogin} component={Upload}/>
 
       { /* Routes requiring login */ }
       <Route onEnter={requireLogin}>
